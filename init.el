@@ -157,8 +157,6 @@
 (require 'init-flycheck)
 (require 'init-tmux)
 
-(add-to-list 'load-path (expand-file-name "fence-edit" user-emacs-directory))
-(require 'fence-edit)
 
 ;; Utilities
 (use-package s
@@ -383,7 +381,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :config
   (setq markdown-command "pandoc --from markdown_github-hard_line_breaks --to html")
   (define-key markdown-mode-map (kbd "<C-return>") 'markdown-insert-list-item)
-  (define-key markdown-mode-map (kbd "C-c '")      'fence-edit-code-at-point)
   (define-key markdown-mode-map (kbd "C-c 1")      'markdown-insert-header-atx-1)
   (define-key markdown-mode-map (kbd "C-c 2")      'markdown-insert-header-atx-2)
   (define-key markdown-mode-map (kbd "C-c 3")      'markdown-insert-header-atx-3)
