@@ -22,7 +22,7 @@
  '(all-the-icons-dired-dir-face ((t (:foreground "khaki2"))))
  '(sml/folder ((t (:inherit sml/global :background "grey22" :foreground "grey50" :weight normal))))
  '(sml/git ((t (:background "grey22" :foreground "chartreuse3"))))
- '(default ((t (:family "Hack" :foundry "nil" :slant normal :weight normal :height 140 :width normal))))
+ '(default ((t (:family "Source Code Pro" :foundry "nil" :slant normal :weight normal :height 140 :width normal))))
  '(org-level-1 ((t (:foreground "#91ddff" :weight bold :height 1.1))))
  '(org-level-1 ((t (:box nil :background nil))))
  '(org-level-2 ((t (:box nil :background nil))))

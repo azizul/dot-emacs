@@ -19,8 +19,8 @@
               (define-key global-map (kbd "<s-return>") 'toggle-frame-fullscreen))
 
             (when (memq window-system '(x w32))
-              (add-to-list 'default-frame-alist '(font . "Hack"))
-              (set-face-attribute 'default nil :font "Hack")
+              (add-to-list 'default-frame-alist '(font . "Source Code Pro"))
+              (set-face-attribute 'default nil :font "Source Code Pro")
               (sanityinc/set-frame-font-size 18))
 
             (when (fboundp 'powerline-reset)
