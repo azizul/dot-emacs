@@ -1,0 +1,13 @@
+# Ignore all of emacs.d, which is mostly compiled/downloaded scripts.
+/*
+# main files
+!.gitignore
+!init.el
+!custom.el
+!markdown-preview-template.html
+!eshell/alias
+# But don't ignore these specific locations.
+!/evil-rebellion
+!/lisp
+!/snippets
+!/themes
