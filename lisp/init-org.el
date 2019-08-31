@@ -887,20 +887,7 @@ TAG is chosen interactively from the global tags completion table."
               (require 'ox)
               (require 'ox-beamer)
               (setf org-export-dispatch-use-expert-ui t)
-              (add-to-list 'org-export-filter-bold-functions 'air--beamer-bold)
-
-              ;; Settings for non-agenda modes only
-              (when (not (eq major-mode 'org-agenda-mode))
-                (ignore-errors
-                  (if (buffer-file-name)
-                      (and (require 'periodic-commit-minor-mode)
-                           (periodic-commit-minor-mode t))))
-                (setq fill-column 100)
-                (org-evil-mode)
-                (visual-line-mode)
-                (visual-fill-column-mode)
-                (flyspell-mode)
-                (org-indent-mode)))))
+              (add-to-list 'org-export-filter-bold-functions 'air--beamer-bold))))
 
 (use-package org-evil
   :ensure t
