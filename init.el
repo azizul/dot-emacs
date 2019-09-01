@@ -288,7 +288,8 @@
   (setq ag-executable "c:/programData/chocolatey/bin/ag")
   (setq ag-highlight-search t)
   (setq ag-reuse-buffers t)
-  (setq ag-reuse-window t))
+  (setq ag-reuse-window t)
+  (setq ag-arguments (list "--skip-vcs-ignores" "--smart-case" "--stats"))) ;; tempory fix for ag bug not search .gitignore whitelisted file
 
 (use-package js2-mode
   :ensure t
