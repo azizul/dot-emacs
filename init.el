@@ -26,7 +26,7 @@
         (add-to-list 'load-path (car file))))))
 
 (add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
-(add-to-list 'exec-path "/usr/local/bin")
+;;(add-to-list 'exec-path "/usr/local/bin")
 
 ;; Don't litter my init file
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
@@ -285,7 +285,7 @@
               (wgrep-ag-setup)
               (define-key ag-mode-map (kbd "n") 'evil-search-next)
               (define-key ag-mode-map (kbd "N") 'evil-search-previous)))
-  (setq ag-executable "/usr/local/bin/ag")
+  (setq ag-executable "c:/programData/chocolatey/bin/ag")
   (setq ag-highlight-search t)
   (setq ag-reuse-buffers t)
   (setq ag-reuse-window t))
