@@ -156,6 +156,11 @@
 (require 'init-php)
 (require 'init-flycheck)
 (require 'init-tmux)
+;;(require 'init-sunrise')
+(load-file (expand-file-name "github/sunrise-commander/sunrise.el" user-emacs-directory))
+;(use-package sunrise
+;  :ensure t)
+(require 'sunrise)
 
 
 ;; Utilities
@@ -526,9 +531,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
                                             (turn-off-auto-fill)
                                             (visual-fill-column-mode t))))
 
-(use-package sunrise-commander
-    :ensure t
-    :diminish t)
 ;;; Helpers for GNUPG, which I use for encrypting/decrypting secrets.
 (require 'epa-file)
 (epa-file-enable)
