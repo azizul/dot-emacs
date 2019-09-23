@@ -23,7 +23,7 @@
         "pdflatex -shell-escape -interaction nonstopmode -output-directoyr %o %f"))
 
 ;; list of languages that may be evaluated in org documents
-(require 'ob-typescript)
+(use-package ob-typescript :ensure t)
 (setq my/org-babel-evaluated-languages '(emacs-lisp shell java js typescript))
 ;; diagramming graphiz
 (add-to-list 'org-src-lang-modes (quote ("dot" . graphviz-dot)))
