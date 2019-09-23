@@ -31,6 +31,7 @@
 ;; diagramming Ditaa
 (add-to-list 'my/org-babel-evaluated-languages 'ditaa)
 ;; diagramming PlantUml
+(setq org-plantuml-jar-path (expand-file-name "C:\\ProgramData\\chocolatey\\lib\\plantuml\\tools\\plantuml.jar"))
 (add-to-list 'my/org-babel-evaluated-languages 'plantuml)
 
 (org-babel-do-load-languages
