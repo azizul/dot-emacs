@@ -156,12 +156,7 @@
 (require 'init-php)
 (require 'init-flycheck)
 (require 'init-tmux)
-;;(require 'init-sunrise')
-(load-file (expand-file-name "github/sunrise-commander/sunrise.el" user-emacs-directory))
-;(use-package sunrise
-;  :ensure t)
-(require 'sunrise)
-
+(require 'init-babel)
 
 ;; Utilities
 (use-package s

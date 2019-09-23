@@ -4,7 +4,7 @@
 ;; Basic Org Mode configuration, assuming presence of Evil & Evil Leader.
 
 ;; Defaults
-(defcustom air-org-root-location "~/Dropbox/org"
+(defcustom air-org-root-location "~/org.mode"
   "The root location where Org files are stored."
   :type 'directory
   :group 'air-org)
@@ -531,6 +531,7 @@ TAG is chosen interactively from the global tags completion table."
          ("C-c f i" . air-org-goto-custom-id))
   :config
   (require 'org-protocol)
+  (setq org-agenda-files (list "~/org.mode/work.org"))
   (setq org-hide-emphasis-markers t)
   (setq org-modules
         '(org-bbdb org-bibtex org-docview org-habit org-info org-w3m))
@@ -587,9 +588,9 @@ TAG is chosen interactively from the global tags completion table."
                   ":END:\n\n"))))
 
   (setq org-directory
-        (if (file-directory-p (expand-file-name "~/Dropbox (personal)"))
-            "~/Dropbox (personal)/org"
-          "~/Dropbox/org"))
+        (if (file-directory-p (expand-file-name "~/org.mode"))
+            "~/org.mode"
+          "~/org.mode"))
   (setq org-default-notes-file (expand-file-name "gtd/inbox.org" org-directory))
 
   ;; Logging of state changes
