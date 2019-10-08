@@ -30,7 +30,7 @@
     "S"  'delete-trailing-whitespace
     "t"  'gtags-reindex
     "T"  'gtags-find-tag
-    "w"  'save-buffer
+    "w"  'avy-goto-char ;; save-buffer
     "x"  'helm-M-x
     "y"  'yank-to-x-clipboard)
 
@@ -191,6 +191,11 @@ is not used."
 
   (use-package evil-indent-textobject
     :ensure t)
+
+  (use-package evil-easymotion
+    :ensure t
+    :config
+    (evilem-default-keybindings ","))
 
   (air--apply-evil-other-package-configs))
 

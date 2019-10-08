@@ -16,7 +16,7 @@
  '(js-indent-level 2)
  '(magit-commit-arguments nil)
  '(markdown-preview-custom-template "/Users/abieber/.emacs.d/markdown-preview-template.html")
- '(org-agenda-files nil)
+ '(org-agenda-files (quote ("~/org.mode/work.org")))
  '(org-hide-emphasis-markers t)
  '(org-modules
    (quote

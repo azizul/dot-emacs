@@ -17,7 +17,7 @@
     (org-insert-link nil (car link) (cadr link))))
 
 (defun air--alist-key-match-p (list substring)
-  "Return t if any key in LIST contains SUBSTRING."
+  "Return t if any key in LIST contain SUBSTRING."
   (let ((found))
     (dolist (item list)
       (if (string-match-p substring (car item))
