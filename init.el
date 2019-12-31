@@ -149,6 +149,8 @@
 ;;; Larger package-specific configurations.
 (require 'init-fonts)
 (require 'init-gtags)
+;;configure in init-evil
+;;(require 'init-keychord)
 (require 'init-evil)
 (require 'init-twitter)
 (require 'init-maps)
