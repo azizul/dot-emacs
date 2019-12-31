@@ -195,7 +195,7 @@
              (use-package evil-easymotion
                           :ensure t
                           :config
-                          (evilem-default-keybindings ","))
+                          (evilem-default-keybindings "SPC"))
 
              (use-package key-chord
                           :ensure t
