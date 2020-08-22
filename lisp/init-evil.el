@@ -12,12 +12,10 @@
     "aa" 'align-regexp
     "a=" 'my-align-single-equals
     "b"  'helm-mini             ;; Switch to another buffer
-    "B"  'magit-blame-toggle
     "c"  'comment-dwim
     "d"  'kill-this-buffer
     "D"  'open-current-line-in-codebase-search
     "f"  'helm-imenu            ;; Jump to function in buffer
-    "g"  'magit-status
     "h"  'fontify-and-browse    ;; HTML-ize the buffer and browse the result
     "l"  'whitespace-mode       ;; Show invisible characters
     "nn" 'air-narrow-dwim       ;; Narrow to region and enter normal mode
@@ -32,14 +30,8 @@
     "T"  'gtags-find-tag
     "w"  'avy-goto-char ;; save-buffer
     "x"  'helm-M-x
-    "y"  'yank-to-x-clipboard)
+    "y"  'yank-to-x-clipboard))
 
-  (defun magit-blame-toggle ()
-    "Toggle magit-blame-mode on and off interactively."
-    (interactive)
-    (if (and (boundp 'magit-blame-mode) magit-blame-mode)
-      (magit-blame-quit)
-      (call-interactively 'magit-blame))))
 
 (defun air--config-evil ()
   "Configure evil mode."
@@ -52,21 +44,12 @@
                    eshell-mode
                    flycheck-error-list-mode
                    git-rebase-mode
-                   octopress-mode
-                   octopress-server-mode
-                   octopress-process-mode
                    org-capture-mode
-                   sunshine-mode
                    term-mode))
     (add-to-list 'evil-emacs-state-modes mode))
 
   (delete 'term-mode evil-insert-state-modes)
   (delete 'eshell-mode evil-insert-state-modes)
-
-  ;; Use insert state in these additional modes.
-  (dolist (mode '(twittering-edit-mode
-                   magit-log-edit-mode))
-    (add-to-list 'evil-insert-state-modes mode))
 
   (add-to-list 'evil-buffer-regexps '("\\*Flycheck"))
 
@@ -122,10 +105,7 @@
     (define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
     (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
-    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
-
-    ;; My own Ex commands.
-    (evil-ex-define-cmd "om" 'octopress-status))
+    (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit))
 
 (defun air--apply-evil-other-package-configs ()
   "Apply evil-dependent settings specific to other packages."

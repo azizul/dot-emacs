@@ -42,6 +42,13 @@
 (eval-when-compile
   (require 'use-package))
 
+;; load themes
+(add-to-list 'custom-theme-load-path (expand-file-name "themes" user-emacs-directory))
+
+;; custom config put the another file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file 'noerror)
+
 ;; Essential settings.
 (setq inhibit-splash-screen t
       inhibit-startup-message t
@@ -63,8 +70,6 @@
 (setq custom-safe-themes t)
 (column-number-mode t)
 (setq tab-width 4)
-(setq tramp-default-method "ssh")
-(setq tramp-syntax 'simplified)
 
 ;; Allow confusing functions
 (put 'narrow-to-region 'disabled nil)
@@ -92,99 +97,34 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 (setq make-backup-files nil)
 
-;;; File type overrides.
-(add-to-list 'auto-mode-alist '("\\.html$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.twig$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.restclient$" . restclient-mode))
-
-;;; Use pcomplete because it helps in org-mode
-;;; TODO find out if there is a way to feed this into Company instead
-;; (add-to-list 'completion-at-point-functions 'pcomplete)
-
 ;;; My own configurations, which are bundled in my dotfiles.
 (require 'init-platform)
 (require 'init-global-functions)
 
-;;; Required by init-maps, so it appears up here.
-(use-package tiny-menu
-  :ensure t
-  :commands (tiny-menu-run-item)
-  :config
-  (setq tiny-menu-items
-        '(("reverts"      ("Revert"
-                           ((?r "This buffer"     revert-buffer)
-                            (?o "All Org buffers" org-revert-all-org-buffers))))
-          ("org-things"   ("Org Things"
-                           ((?t "Tag"       air-org-display-any-tag)
-                            (?i "ID"        air-org-goto-custom-id)
-                            (?k "Keyword"   org-search-view)
-                            (?h "Headings"  air-org-helm-headings)
-                            (?d "Directs"   air-org-display-directs)
-                            (?m "Managers"  air-org-display-managers)
-                            (?e "Engineers" air-org-display-engineers))))
-          ("org-agendas"  ("Org Agenda Views"
-                           ((?a "All"         air-pop-to-org-agenda-default)
-                            (?r "Review"      air-pop-to-org-agenda-review)
-                            (?h "Home"        air-pop-to-org-agenda-home)
-                            )))
-          ("org-links"    ("Org Links"
-                           ((?c "Capture"      org-store-link)
-                            (?l "Insert first" air-org-insert-first-link)
-                            (?L "Insert any"   org-insert-link)
-                            (?i "Custom ID"    air-org-insert-custom-id-link))))
-          ("org-files"    ("Org Files"
-                           ((?t "TODO"     (lambda () (air-pop-to-org-todo nil)))
-                            (?n "Notes"    (lambda () (interactive) (air-pop-to-org-notes nil)))
-                            (?v "Vault" (lambda () (interactive) (air-pop-to-org-vault nil))))))
-          ("org-captures" ("Org Captures"
-                           ((?c "Task/idea" air-org-task-capture)
-                            (?t "Tickler"   air-org-tickler-capture)
-                            (?n "Note"      (lambda () (interactive) (org-capture nil "n"))))))
-          ("org-personal-captures" ("Org Personal Captures"
-                                    ((?c "Task/idea" (lambda () (interactive (org-capture nil "h"))))
-                                     (?n "Note" (lambda () (interactive (org-capture nil "o")))))))
-
-          )))
-
 ;;; Larger package-specific configurations.
 (require 'init-fonts)
 (require 'init-gtags)
-;;configure in init-evil
-;;(require 'init-keychord)
 (require 'init-evil)
-(require 'init-twitter)
 (require 'init-maps)
 (require 'init-w3m)
-(require 'init-php)
 (require 'init-flycheck)
-(require 'init-tmux)
 (require 'init-babel)
+(require 'init-lspjava)
 
 ;; Utilities
 (use-package s
   :ensure t
   :defer 1)
 (use-package dash :ensure t)
-
 (use-package visual-fill-column :ensure t)
 
 ;; Org Mode
 (require 'init-org)
 
-;; Just while I'm working on it.
-(add-to-list 'load-path (expand-file-name "octopress-mode" user-emacs-directory))
-(use-package octopress
-  :ensure t
-  :commands (octopress-status octopress-mode)
-  :config
-  (require 'markdown-mode)
-  (add-hook 'markdown-mode-hook
-            (lambda ()
-              (octopress-minor-mode t))))
 
+;; need to run all-the-icons-install-fonts to OS
 (use-package all-the-icons
   :ensure t)
-
 (use-package all-the-icons-dired
   :ensure t)
 
@@ -196,7 +136,7 @@
 (use-package dired
   :config
   (require 'dired-x)
-  (setq dired-omit-files "^\\.?#\\|^\\.[^.].*")
+  (defvar dired-omit-files "^\\.?#\\|^\\.[^.].*")
 
   (defun air-dired-buffer-dir-or-home ()
     "Open dired to the current buffer's dir, or $HOME."
@@ -312,9 +252,9 @@
   :commands helm-mode
   :config
   (helm-mode 1)
-  (setq helm-buffers-fuzzy-matching t)
+  (defvar helm-buffers-fuzzy-matching t)
   (setq helm-autoresize-mode t)
-  (setq helm-buffer-max-length 40)
+  (defvar helm-buffer-max-length 40)
   (define-key helm-map (kbd "S-SPC")          'helm-toggle-visible-mark)
   (define-key helm-find-files-map (kbd "C-k") 'helm-find-files-up-one-level)
   (define-key helm-read-file-map (kbd "C-k")  'helm-find-files-up-one-level))
@@ -398,52 +338,11 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
                                   (setq-local auto-fill-inhibit-regexp "{% [a-zA-Z]+")
                                   (flyspell-mode))))
 
-(use-package php-extras :ensure t :defer t)
 (use-package sublime-themes :ensure t)
-(use-package sunshine
-  :ensure t
-  :commands sunshine-forecast
-  :config
-  (defun get-string-from-file (file-path)
-    "Return FILE-PATH's contents."
-    (with-temp-buffer
-      (insert-file-contents file-path)
-      (buffer-string)))
-  (setq sunshine-appid (get-string-from-file
-                        (expand-file-name "sunshine-appid" user-emacs-directory)))
-  (setq sunshine-location "Boston, MA, USA")
-  (setq sunshine-show-icons t))
-
-(use-package twittering-mode
-  :ensure t
-  :commands twit
-  :config
-  (add-hook 'twittering-mode-hook
-            (lambda ()
-              (define-key twittering-mode-map (kbd ",o") 'delete-other-windows)
-              (define-key twittering-mode-map (kbd ",b") 'helm-mini)
-              (define-key twittering-mode-map (kbd "C-c r") 'twittering-retweet)))
-  (setq twittering-use-native-retweet t)
-  (setq twittering-default-show-replied-tweets 3)
-  (setq twittering-use-icon-storage t))
-
-(use-package web-mode
-  :ensure t
-  :defer t
-  :config
-  (setq web-mode-attr-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-indent-style 2)
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-sql-indent-offset 2))
-
 (use-package color-theme-sanityinc-tomorrow :ensure t)
 (use-package zenburn-theme :ensure t :defer t)
-
 (use-package mmm-mode :ensure t :defer t)
 (use-package yaml-mode :ensure t :defer t)
-
 (use-package yasnippet
   :ensure t
   :defer t
@@ -472,7 +371,7 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :config
   (projectile-mode)
   (setq projectile-enable-caching t)
-  (setq projectile-mode-line
+  (defvar projectile-mode-line
         '(:eval
           (format " Proj[%s]"
                   (projectile-project-name)))))
@@ -483,34 +382,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   :diminish ""
   :config
   (setq-default highlight-symbol-idle-delay 1.5))
-
-(use-package magit
-  :ensure t
-  :defer t
-  :config
-  (setq magit-branch-arguments nil)
-  (setq magit-push-always-verify nil)
-  (setq magit-last-seen-setup-instructions "1.4.0")
-  (magit-define-popup-switch 'magit-log-popup ?f "first parent" "--first-parent"))
-
-(use-package mmm-mode
-  :ensure t
-  :defer t
-  :config
-  (setq mmm-global-mode 'maybe)
-  (mmm-add-classes
-   '((markdown-cl
-      :submode emacs-lisp-mode
-      :face mmm-declaration-submode-face
-      :front "^~~~cl[\n\r]+"
-      :back "^~~~$")
-     (markdown-php
-      :submode php-mode
-      :face mmm-declaration-submode-face
-      :front "^```php[\n\r]+"
-      :back "^```$")))
-  (mmm-add-mode-ext-class 'markdown-mode nil 'markdown-cl)
-  (mmm-add-mode-ext-class 'markdown-mode nil 'markdown-php))
 
 (use-package undo-tree
   :ensure t
@@ -527,11 +398,6 @@ COMMAND, ARG, IGNORED are the arguments required by the variable
   (add-hook 'atomic-chrome-edit-mode-hook (lambda ()
                                             (turn-off-auto-fill)
                                             (visual-fill-column-mode t))))
-
-;;; Helpers for GNUPG, which I use for encrypting/decrypting secrets.
-(require 'epa-file)
-(epa-file-enable)
-(setq-default epa-file-cache-passphrase-for-symmetric-encryption t)
 
 (defvar show-paren-delay 0
   "Delay (in seconds) before matching paren is highlighted.")
@@ -666,42 +532,12 @@ The IGNORED argument is... Ignored."
 
 (add-hook 'eshell-mode-hook 'air--eshell-mode-hook)
 
-;;; Magit mode (which does not open in evil-mode):
-(add-hook 'magit-mode-hook
-          (lambda ()
-            (define-key magit-mode-map (kbd ",o") 'delete-other-windows)))
-
-;;; Git Commit Mode (a Magit minor mode):
-(add-hook 'git-commit-mode-hook 'evil-insert-state)
-
 ;;; Emmet mode:
 (add-hook 'emmet-mode-hook
           (lambda ()
             (evil-define-key 'insert emmet-mode-keymap (kbd "C-S-l") 'emmet-next-edit-point)
             (evil-define-key 'insert emmet-mode-keymap (kbd "C-S-h") 'emmet-prev-edit-point)))
 
-;;; Web mode:
-(add-hook 'web-mode-hook
-          (lambda ()
-            (setq web-mode-style-padding 2)
-            (yas-minor-mode t)
-            (emmet-mode)
-            (flycheck-add-mode 'html-tidy 'web-mode)
-            (flycheck-mode)))
-
-(setq web-mode-ac-sources-alist
-      '(("php" . (ac-source-php-extras ac-source-yasnippet ac-source-gtags ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
-        ("css" . (ac-source-css-property ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))))
-
-(add-hook 'web-mode-before-auto-complete-hooks
-          '(lambda ()
-             (let ((web-mode-cur-language (web-mode-language-at-pos)))
-               (if (string= web-mode-cur-language "php")
-                   (yas-activate-extra-mode 'php-mode)
-                 (yas-deactivate-extra-mode 'php-mode))
-               (if (string= web-mode-cur-language "css")
-                   (setq emmet-use-css-transform t)
-                 (setq emmet-use-css-transform nil)))))
 
 ;;; Emacs Lisp mode:
 (add-hook 'emacs-lisp-mode-hook
@@ -716,15 +552,6 @@ The IGNORED argument is... Ignored."
                           (setq sh-basic-offset 2)
                           (setq sh-indentation 2)))
 
-;;; Twittering mode:
-(setq twittering-use-master-password t)
-(add-hook 'twittering-mode-hook (lambda ()
-                                  (define-key twittering-mode-map (kbd "C-c C-a") 'twittering-favorite)
-                                  (define-key twittering-mode-map (kbd ",b") 'helm-mini)))
-
-(add-hook 'twittering-edit-mode-hook (lambda ()
-                                       (flyspell-mode)))
-
 ;;; Javascript mode:
 (add-hook 'javascript-mode-hook (lambda ()
                                   (set-fill-column 120)
@@ -735,28 +562,6 @@ The IGNORED argument is... Ignored."
 (add-hook 'html-mode-hook (lambda ()
                             (setq sgml-basic-offset 2)
                             (setq indent-tabs-mode nil)))
-
-(defun find-php-functions-in-current-buffer ()
-  "Find lines that appear to be PHP functions in the buffer.
-
-This function performs a regexp forward search from the top
-\(point-min) of the buffer to the end, looking for lines that
-appear to be PHP function declarations.
-
-The return value of this function is a list of cons in which
-the car of each cons is the bare function name and the cdr
-is the buffer location at which the function was found."
-  (save-excursion
-    (goto-char (point-min))
-    (let (res)
-      (save-match-data
-        (while (re-search-forward  "^ *\\(public \\|private \\|protected \\|static \\)*?function \\([^{]+\\)" nil t)
-          (let* ((fn-name (save-match-data (match-string-no-properties 2)))
-                 (fn-location (save-match-data (match-beginning 0))))
-            (setq res
-                  (append res
-                          (list `(,fn-name . ,fn-location)))))))
-      res)))
 
 (put 'narrow-to-region 'disabled nil)
 

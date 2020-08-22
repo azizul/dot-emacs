@@ -243,7 +243,7 @@ Attempts to follow the Do What I Mean philosophy."
 
 ;;; From http://beatofthegeek.com/2014/02/my-setup-for-using-emacs-as-web-browser.html
 (defun wikipedia-search (search-term)
-  "Search for SEARCH-TERM on wikipedia"
+  "Search for SEARCH-TERM on wikipedia."
   (interactive
    (let ((term (if mark-active
                    (buffer-substring (region-beginning) (region-end))
